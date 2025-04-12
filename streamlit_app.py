@@ -95,6 +95,8 @@ import torch
 import gdown
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from sentence_transformers import SentenceTransformer
+os.system('pip install gdown')
+
 
 # Function to download a full folder from Google Drive
 def download_folder_from_google_drive(folder_url, output_path):
