@@ -93,10 +93,11 @@ import pickle
 import numpy as np
 import torch
 import gdown
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from sentence_transformers import SentenceTransformer
-os.system('pip install gdown')
 
+# Install gdown if needed
+os.system('pip install gdown')
 
 # Function to download a full folder from Google Drive
 def download_folder_from_google_drive(folder_url, output_path):
@@ -134,17 +135,17 @@ def setup_files():
     download_file_from_google_drive("1N54imsqJIJGeqM3buiRzp1ivK_BtC7rR", "models/files/embeddings.npy")
 
 # Paths
-EMBEDDING_MODEL_PATH = "models/embedding_model"
-GENERATOR_MODEL_PATH = "models/generator_model"
-FAISS_INDEX_PATH = "models/files/faiss_index_file.index"
-TEXTS_PATH = "models/files/texts.pkl"
-EMBEDDINGS_PATH = "models/files/embeddings.npy"
+EMBEDDING_MODEL_PATH = "./models/embedding_model"
+GENERATOR_MODEL_PATH = "./models/generator_model"
+FAISS_INDEX_PATH = "./models/files/faiss_index_file.index"
+TEXTS_PATH = "./models/files/texts.pkl"
+EMBEDDINGS_PATH = "./models/files/embeddings.npy"
 
 # Load LLM model (Generator model)
 @st.cache_resource
 def load_llm():
-    tokenizer = T5Tokenizer.from_pretrained(GENERATOR_MODEL_PATH)
-    model = T5ForConditionalGeneration.from_pretrained(GENERATOR_MODEL_PATH)
+    tokenizer = AutoTokenizer.from_pretrained(GENERATOR_MODEL_PATH)
+    model = AutoModelForSeq2SeqLM.from_pretrained(GENERATOR_MODEL_PATH)
     return tokenizer, model
 
 # Load embedding model
