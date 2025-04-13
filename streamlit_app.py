@@ -143,6 +143,9 @@ EMBEDDINGS_PATH = "./models/files/embeddings.npy"
 # Load LLM model (Generator model)
 @st.cache_resource
 def load_llm():
+    st.write("GENERATOR_MODEL_PATH:", GENERATOR_MODEL_PATH)
+    st.write("Files in model folder:", os.listdir(GENERATOR_MODEL_PATH))
+
     tokenizer = T5Tokenizer.from_pretrained(GENERATOR_MODEL_PATH)
     model = T5ForConditionalGeneration.from_pretrained(GENERATOR_MODEL_PATH)
     return tokenizer, model
