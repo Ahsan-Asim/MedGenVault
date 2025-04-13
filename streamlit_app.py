@@ -93,11 +93,10 @@ import pickle
 import numpy as np
 import torch
 import gdown
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 from sentence_transformers import SentenceTransformer
-
-# Install gdown if needed
 os.system('pip install gdown')
+
 
 # Function to download a full folder from Google Drive
 def download_folder_from_google_drive(folder_url, output_path):
@@ -144,8 +143,8 @@ EMBEDDINGS_PATH = "./models/files/embeddings.npy"
 # Load LLM model (Generator model)
 @st.cache_resource
 def load_llm():
-    tokenizer = AutoTokenizer.from_pretrained(GENERATOR_MODEL_PATH)
-    model = AutoModelForSeq2SeqLM.from_pretrained(GENERATOR_MODEL_PATH)
+    tokenizer = T5Tokenizer.from_pretrained(GENERATOR_MODEL_PATH)
+    model = T5ForConditionalGeneration.from_pretrained(GENERATOR_MODEL_PATH)
     return tokenizer, model
 
 # Load embedding model
@@ -179,6 +178,7 @@ def generate_response(context, query, tokenizer, model):
 
 # Streamlit app
 def main():
+    setup_files()
     st.set_page_config(page_title="Clinical QA with RAG", page_icon="🩺")
     st.title("🔎 Clinical QA System (RAG + FAISS + T5)")
 
@@ -190,7 +190,6 @@ def main():
     )
 
     # Download + Load everything
-    setup_files()
     tokenizer, llm_model = load_llm()
     embed_model = load_embedding_model()
     faiss_index, data, embeddings = load_faiss()
